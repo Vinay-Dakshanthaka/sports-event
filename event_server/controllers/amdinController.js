@@ -10,7 +10,7 @@ const secretKey =  process.env.JWT_SECRET;
 const AdminController = {
     async addAdmin(req, res) {
         const { username, password } = req.body;
-
+         console.log(req.body,"-----------------------")
         try {
             if (!username || !password) {
                 return res.status(400).json({ error: "Username and password are required" });
@@ -18,12 +18,12 @@ const AdminController = {
 
             // Hash the password before saving
             const hashedPassword = await bcrypt.hash(password, 10);
-
+              console.log(hashedPassword,"----------------------pass")
             const admin = await AdminService.createAdmin({
                 username,
                 password: hashedPassword,
             });
-
+               
             res.status(201).json({
                 message: "Admin added successfully",
                 admin: { id: admin.id, username: admin.username },

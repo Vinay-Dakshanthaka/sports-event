@@ -7,11 +7,19 @@ const ParticipantSportsController = require('../controllers/participantSportsCon
 
 router.post('/sports', SportsController.addSport);
 
+router.get('/getsports', SportsController.getAllSports);
+
 router.post('/participants', ParticipantsController.addParticipant);
 
 router.get('/participants/:id', ParticipantsController.fetchParticipantById);
 
 router.post('/participant-sports', ParticipantSportsController.registerParticipant);
+
+router.post('/addSportsForParticipant', ParticipantSportsController.addSportsForParticipant);
+
+router.delete('/sports/:id', SportsController.deleteSport);
+
+
 
 
 module.exports = router;

@@ -2,8 +2,11 @@ const Admin = require("../models/adminModel");
 
 const AdminService = {
     async createAdmin(adminData) {
+        console.log(adminData,"----------admindata")
         try {
+
             const admin = await Admin.create(adminData);
+            console.log(admin,"----------------admin")
             return admin;
         } catch (error) {
             throw new Error(`Error creating admin: ${error.message}`);

@@ -6,6 +6,7 @@ import AdminNavbar from './components/header/AdminNavbar';
 import QRScanner from './components/QRScanner';
 import AdminLogin from './components/AdminLogin';
 import ParticipantsTable from './components/ParticipantTable';
+import Sports from './components/Sports';
 
 function App() {
   // Get role from localStorage to protect admin routes
@@ -44,10 +45,11 @@ function App() {
           /> */}
 
           {/* Other Routes */}
-          <Route path="/register" element={<ParticipantRegistration />} />
+          {/* <Route path="/register" element={<ParticipantRegistration />} /> */}
           <Route path="/qr-scanner" element={<QRScanner />} />
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin-dashboard" element={<ParticipantsTable />} />
+          <Route path="/add-sports" element={<Sports />} />
 
 
           {/* Redirect if route not found */}
