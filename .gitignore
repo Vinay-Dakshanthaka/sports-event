@@ -1,0 +1,5 @@
+/event_management_app/node_modules
+/event_management_app/package-lock.json
+
+/event_server/node_modules
+/event_server/package-lock.json
