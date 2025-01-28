@@ -1,4 +1,5 @@
 const Participants = require("../models/particpantsModel");
+const Sports = require("../models/sportsModel");
 
 const ParticipantsService = {
     async createParticipant(participantData) {
@@ -6,6 +7,7 @@ const ParticipantsService = {
             const participant = await Participants.create(participantData);
             return participant;
         } catch (error) {
+            console.log("error while saving participant : ", error)
             throw new Error(`Error creating participant: ${error.message}`);
         }
     },
@@ -25,9 +27,17 @@ const ParticipantsService = {
 
     async allParticipants() {
         try {
-            const participant = await Participants.findAll();
+            const participant = await Participants.findAll(
+                {
+                    include : [Sports]
+                },
+                {
+                    order : [["id","ASC"]]
+                }
+            );
             return participant;
         } catch (error) {
+            console.log(error)
             throw new Error(`Error creating participant: ${error.message}`);
         }
     },

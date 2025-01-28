@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Spinner, Alert, Form, Row, Col, Button } from "react-bootstrap";
-import Paginate from "./Paginate"; // Import the provided Paginate component
+import Paginate from "./Paginate";
 import { baseURL } from "./config/baseURL";
 
 const ParticipantsTable = () => {
@@ -25,6 +25,7 @@ const ParticipantsTable = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("response : ", response)
       setParticipants(response.data.particpants);
       setFilteredParticipants(response.data.particpants);
     } catch (err) {
@@ -54,8 +55,8 @@ const ParticipantsTable = () => {
   const handleFilter = () => {
     const filtered = participants.filter(
       (p) =>
-        (selectedPlace ? p.place === selectedPlace : true) &&
-        (selectedState ? p.state === selectedState : true)
+        (selectedPlace ? p.place?.toLowerCase() === selectedPlace.toLowerCase() : true) &&
+        (selectedState ? p.state?.toLowerCase() === selectedState.toLowerCase() : true)
     );
     setFilteredParticipants(filtered);
     setCurrentPage(1);
@@ -74,8 +75,39 @@ const ParticipantsTable = () => {
     currentPage * itemsPerPage
   );
 
-  const uniquePlaces = [...new Set(participants.map((p) => p.place))];
-  const uniqueStates = [...new Set(participants.map((p) => p.state))];
+  const uniquePlaces = [
+    ...new Map(
+      participants
+        .filter((p) => p.place)
+        .map((p) => [p.place.toLowerCase(), p.place])
+    ).values(),
+  ];
+
+  const uniqueStates = [
+    ...new Map(
+      participants
+        .filter((p) => p.state)
+        .map((p) => [p.state.toLowerCase(), p.state])
+    ).values(),
+  ];
+
+
+  const formatEntryTime = (entryTime) => {
+    if (!entryTime) return "Not Entered";
+
+    const date = new Date(entryTime);
+    const options = {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    };
+
+    return date.toLocaleString('en-US', options);
+  };
+
 
   return (
     <div className="container my-4">
@@ -145,6 +177,7 @@ const ParticipantsTable = () => {
                 <th>Place</th>
                 <th>State</th>
                 <th>Entry Time</th>
+                <th>Sports</th>
               </tr>
             </thead>
             <tbody>
@@ -157,18 +190,30 @@ const ParticipantsTable = () => {
                     <td>{p.phone || "N/A"}</td>
                     <td>{p.place || "N/A"}</td>
                     <td>{p.state || "N/A"}</td>
-                    <td>{p.entry_time || "Not Entered"}</td>
+                    <td>{formatEntryTime(p.entry_time)}</td>
+                    <td>
+                      {p.Sports && p.Sports.length > 0 ? (
+                        <ul className="list-unstyled mb-0">
+                          {p.Sports.map((sport) => (
+                            <li key={sport.id}>{sport.name}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        "N/A"
+                      )}
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" className="text-center">
+                  <td colSpan="8" className="text-center">
                     No participants found.
                   </td>
                 </tr>
               )}
             </tbody>
           </Table>
+
           <Paginate
             currentPage={currentPage}
             totalItems={filteredParticipants.length}

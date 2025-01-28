@@ -21,8 +21,8 @@ function App() {
   };
 
   // Paths to exclude Header and Footer (for example, login page)
-  // const excludePaths = ['/register'];
-  const excludePaths = [''];
+  const excludePaths = ['/register'];
+  // const excludePaths = [''];
 
   return (
     <Router>
@@ -45,7 +45,7 @@ function App() {
           /> */}
 
           {/* Other Routes */}
-          {/* <Route path="/register" element={<ParticipantRegistration />} /> */}
+          <Route path="/register" element={<ParticipantRegistration />} />
           <Route path="/qr-scanner" element={<QRScanner />} />
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin-dashboard" element={<ParticipantsTable />} />

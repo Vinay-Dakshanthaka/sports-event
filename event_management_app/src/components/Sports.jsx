@@ -60,7 +60,7 @@ function Sports() {
 
   return (
     <div className="container mt-4">
-      <h1>Sports Management</h1>
+      <h1>Manage Sports</h1>
 
       {/* Button to open the modal */}
       <Button variant="primary" onClick={() => setShowModal(true)} className="mb-3">

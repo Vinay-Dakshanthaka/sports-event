@@ -100,6 +100,7 @@ const AdminController = {
     },
 
     async fetchAllParticipants(req, res) {
+      try {
         const admin_id = req.admin_id;
         const admin = AdminService.getAdminById(admin_id);
         if(!admin){
@@ -111,6 +112,10 @@ const AdminController = {
             message: "Participants fetched successfully ",
             particpants: particpants,
         });
+      } catch (error) {
+        console.error("Error fetching the participants : ", error);
+            res.status(500).json({ error: error.message });
+      }
     }
 };
 

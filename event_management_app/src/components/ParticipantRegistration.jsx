@@ -156,7 +156,7 @@ const ParticipantRegistration = () => {
 
                 {/* Sports Selection Dropdown */}
                 <Form.Group controlId="sports" className="mb-3">
-                  <Form.Label>Available Sports</Form.Label>
+                  <Form.Label>Select Sports</Form.Label>
                   <Select
                     isMulti
                     name="selectedSports"

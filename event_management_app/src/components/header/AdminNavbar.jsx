@@ -48,9 +48,9 @@ const AdminNavbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link active" to="/admin-dashboard">Participants</Link>
                             </li>
-                            {/* <li className="nav-item">
+                            <li className="nav-item">
                                 <Link className="nav-link active" to="/register">Register Participant</Link>
-                            </li> */}
+                            </li>
                             <li className="nav-item">
                                 <Link className="nav-link active" to="/qr-scanner">QR Scanner</Link>
                             </li>

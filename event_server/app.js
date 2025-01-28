@@ -10,7 +10,8 @@ const adminRoutes = require('./routes/adminRoutes')
 const PORT = process.env.PORT || 3040;
 
 app.use(cors({
-    origin: `http://localhost:5173`, 
+    // origin: `http://localhost:5173`, 
+    origin: `https://totfd.fun`, 
 }));
 
 app.use(express.json()); 
