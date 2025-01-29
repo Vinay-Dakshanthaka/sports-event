@@ -44,6 +44,7 @@ const AdminService = {
             });
             return admin;
         } catch (error) {
+            console.log("Erroro while sign in : ", error)
             throw new Error(`Error finding admin by username: ${error.message}`);
         }
     },

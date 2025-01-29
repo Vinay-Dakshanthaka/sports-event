@@ -44,6 +44,7 @@ const AdminLogin = () => {
       }, 1500);
       
     } catch (err) {
+      console.log('Error while sign in : ', err)
       setError(err.response ? err.response.data.error : "An error occurred during login");
       setSuccess("");
     } finally {
