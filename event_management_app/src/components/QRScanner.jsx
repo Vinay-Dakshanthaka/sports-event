@@ -129,17 +129,22 @@ const QRScanner = () => {
     <div className="text-center">
       <h2>Scan the QR</h2>
 
+      {/* Error and Success Messages */}
       {error && <Alert variant="danger">{error}</Alert>}
       {success && <Alert variant="success">{success}</Alert>}
 
-      <div className="my-4">
-        <video
-          ref={videoRef}
-          style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}
-          autoPlay
-        />
+      {/* Video Container */}
+      <div className="my-4 d-flex justify-content-center align-items-center">
+        <div style={{ width: "100%", maxWidth: "400px", aspectRatio: "4/3", position: "relative" }}>
+          <video
+            ref={videoRef}
+            className="w-100 h-100 border border-dark rounded"
+            autoPlay
+          />
+        </div>
       </div>
 
+      {/* Scanned Data */}
       {scannedData && (
         <div className="my-4">
           <h4>Participant ID: {scannedData}</h4>
@@ -147,6 +152,7 @@ const QRScanner = () => {
         </div>
       )}
 
+      {/* Reset Button */}
       <Button
         variant="danger"
         className="mt-3"

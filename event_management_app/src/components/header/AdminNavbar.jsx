@@ -10,9 +10,9 @@ const AdminNavbar = () => {
     // Handle logout
     const handleLogout = () => {
         localStorage.removeItem('role');
-        localStorage.removeItem('authToken'); // Assuming you store your token here
+        localStorage.removeItem('token'); 
         toast.success('Logged out successfully');
-        navigate('/login'); // Redirect to login
+        navigate('/login'); 
     };
 
     const isLoggedIn = localStorage.getItem('token') !== null;
