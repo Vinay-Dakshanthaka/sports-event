@@ -19,7 +19,9 @@ router.post('/addSportsForParticipant', ParticipantSportsController.addSportsFor
 
 router.delete('/sports/:id', SportsController.deleteSport);
 
+router.get('/getparticipantsbysportid', SportsController.getParticipantsBySport);
 
+router.post('/getsportsbyparticipantid',ParticipantSportsController.getsportsbyparticipantid);
 
 
 module.exports = router;

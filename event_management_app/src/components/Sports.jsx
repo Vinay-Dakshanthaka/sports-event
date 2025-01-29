@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { toast } from 'react-hot-toast';  // Using react-hot-toast for notifications
-import { FaTrash } from 'react-icons/fa'; // For the delete icon
-import { Modal, Button, Table, Form } from 'react-bootstrap';  // Import Bootstrap components
+import { toast } from 'react-hot-toast'; 
+import { FaTrash } from 'react-icons/fa'; 
+import { Modal, Button, Table, Form } from 'react-bootstrap';  
 import { baseURL } from "./config/baseURL";
 
 
@@ -11,7 +11,7 @@ function Sports() {
   const [availableSports, setAvailableSports] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  // Fetch available sports when the component mounts
+  
   useEffect(() => {
     const fetchSports = async () => {
       try {

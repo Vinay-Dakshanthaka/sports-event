@@ -14,6 +14,10 @@ const ParticipantsTable = () => {
   const [selectedState, setSelectedState] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [sportsByParticipant, setSportsByParticipant] = useState({});
+  const [selectedSportName, setSelectedSportName] = useState("");
+  const [sportsList, setSportsList] = useState([]);
+
 
   const fetchParticipants = async () => {
     setLoading(true);
@@ -55,16 +59,23 @@ const ParticipantsTable = () => {
     const filtered = participants.filter(
       (p) =>
         (selectedPlace ? p.place === selectedPlace : true) &&
-        (selectedState ? p.state === selectedState : true)
+        (selectedState ? p.state === selectedState : true) 
+        (selectedSportName
+          ? sportsByParticipant[p.id]?.some(
+              (sport) => sport.name === selectedSportName
+            )
+          : true) // Filter by sport name if selected
     );
     setFilteredParticipants(filtered);
     setCurrentPage(1);
   };
 
+ 
   const handleClearFilters = () => {
     setSearchQuery("");
     setSelectedPlace("");
     setSelectedState("");
+    setSelectedSportName(""); // Clear the sport filter
     setFilteredParticipants(participants);
     setCurrentPage(1);
   };
@@ -77,6 +88,38 @@ const ParticipantsTable = () => {
   const uniquePlaces = [...new Set(participants.map((p) => p.place))];
   const uniqueStates = [...new Set(participants.map((p) => p.state))];
 
+  const fetchSportsByParticipantId = async (participantId) => {
+    try {
+      const response = await axios.post(`${baseURL}/api/getsportsbyparticipantid`, {
+        participantId: participantId,
+      });
+      setSportsList(response.data.sports); 
+      console.log(response.data, "------------------------available sports");
+      setSportsByParticipant((prev) => ({
+        ...prev,
+        [participantId]: response.data.sports,
+      }));
+    } catch (error) {
+      console.error("Error fetching sports", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchParticipants();
+  }, []);
+  
+  useEffect(() => {
+    if (participants.length > 0) {
+      // Fetch sports for each participant when participants are loaded
+      participants.forEach((participant) => {
+        if (!sportsByParticipant[participant.id]) {
+          fetchSportsByParticipantId(participant.id);
+        }
+      });
+    }
+  }, [participants]);
+
+  
   return (
     <div className="container my-4">
       <h2 className="text-center mb-4">Participants List</h2>
@@ -123,6 +166,19 @@ const ParticipantsTable = () => {
                 ))}
               </Form.Select>
             </Col>
+            <Col md={3}>
+              <Form.Select
+                value={selectedSportName}
+                onChange={(e) => setSelectedSportName(e.target.value)}
+              >
+                <option value="">Filter by Sport</option>
+                {sportsList.map((sport) => (
+                  <option key={sport.id} value={sport.name}>
+                    {sport.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
             <Col md={3} className="d-flex justify-content-between">
               <Button variant="primary" onClick={handleSearch}>
                 Search
@@ -145,6 +201,7 @@ const ParticipantsTable = () => {
                 <th>Place</th>
                 <th>State</th>
                 <th>Entry Time</th>
+                <th>Registered Sports</th>
               </tr>
             </thead>
             <tbody>
@@ -158,6 +215,20 @@ const ParticipantsTable = () => {
                     <td>{p.place || "N/A"}</td>
                     <td>{p.state || "N/A"}</td>
                     <td>{p.entry_time || "Not Entered"}</td>
+                    <td>
+                    {sportsByParticipant[p.id] && sportsByParticipant[p.id].length > 0 ? (
+                      <Form.Control as="select" value={selectedSportName} onChange={(e) => setSelectedSportName(e.target.value)}>
+                        <option value="">registered sports</option>
+                        {sportsByParticipant[p.id].map((sport) => (
+                          <option key={sport.id} value={sport.name}>
+                            {sport.name}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    ) : (
+                      <div>No sports found</div>
+                    )}
+                  </td>
                   </tr>
                 ))
               ) : (

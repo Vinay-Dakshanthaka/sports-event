@@ -7,6 +7,8 @@ import QRScanner from './components/QRScanner';
 import AdminLogin from './components/AdminLogin';
 import ParticipantsTable from './components/ParticipantTable';
 import Sports from './components/Sports';
+import QRCodeDisplay from './components/QRCodeDisplay';
+import AdminRegistration from './AdminRegistration';
 
 function App() {
   // Get role from localStorage to protect admin routes
@@ -45,8 +47,10 @@ function App() {
           /> */}
 
           {/* Other Routes */}
-          {/* <Route path="/register" element={<ParticipantRegistration />} /> */}
+          <Route path="/register" element={<ParticipantRegistration />} />
+          <Route path="/adminregister" element={<AdminRegistration />} />
           <Route path="/qr-scanner" element={<QRScanner />} />
+          {/* <Route path="/qr-display" element={<QRCodeDisplay />} /> */}
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin-dashboard" element={<ParticipantsTable />} />
           <Route path="/add-sports" element={<Sports />} />

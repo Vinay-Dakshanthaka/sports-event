@@ -41,6 +41,44 @@ const SportsController = {
             return res.status(500).json({ error: error.message });
         }
     },
+
+     // async getParticipantsBySport(req, res) {
+    //     const { sportId } = req.params;  // Get sportId from request parameters
+
+    //     try {
+    //         // Get participants by sport ID
+    //         const participants = await SportsService.getParticipantsBySportId(sportId);
+
+    //         if (participants.length === 0) {
+    //             return res.status(404).json({ message: 'No participants found for this sport.' });
+    //         }
+
+    //         // Return participants
+    //         return res.status(200).json(participants);
+    //     } catch (error) {
+    //         return res.status(500).json({ error: error.message });
+    //     }
+    // },
+
+    async getParticipantsBySport(req, res) {
+        const  { sportId } = req.body;  // Get sportId from URL parameter
+        console.log(req.body,"------sportId")
+        try {
+          // Get participants by sportId from the service
+          const participants = await SportsService.getParticipantsBySportId(sportId);
+    
+          if (!participants.length) {
+            return res.status(404).json({ message: 'No participants found for this sport.' });
+          }
+    
+          return res.status(200).json(participants);  // Return the participants
+        } catch (error) {
+          return res.status(500).json({ error: error.message });
+        }
+      },
+   
+
+
    
 };
 

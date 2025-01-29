@@ -37,6 +37,29 @@ const ParticipantSportsController = {
       return res.status(500).json({ message: error.message });
     }
   },
+
+
+  async  getsportsbyparticipantid(req, res) {
+    const { participantId } = req.body;
+     
+    console.log(participantId,"participantId----------------")
+    if (!participantId) {
+      return res.status(400).json({ error: 'Participant ID is required' });
+    }
+  
+    try {
+      const sports = await ParticipantSportsService.getSportsByParticipantId(participantId);
+  
+      if (sports.length === 0) {
+        return res.status(404).json({ message: 'No sports found for the participant' });
+      }
+  
+      return res.status(200).json({ sports });
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).json({ error: 'An error occurred while fetching sports' });
+    }
+  },
 };
 
 module.exports = ParticipantSportsController;

@@ -1,4 +1,5 @@
 const ParticipantSports = require('../models/participantsSportsModel');
+const Sports = require('../models/sportsModel')
 
 const ParticipantSportsService = {
     async registerParticipantForSports(participantId, sportsIds) {
@@ -13,21 +14,20 @@ const ParticipantSportsService = {
             throw new Error(`Error registering participant for sports: ${error.message}`);
         }
     },
-     // Method to store the participant's selected sports
+    
+
   async addParticipantSports(participantId, sportIds) {
     try {
-      // Check if sportIds is an array, if not, make it an array
+      
       if (!Array.isArray(sportIds)) {
         sportIds = [sportIds];
-      }
-
-      // Prepare the data to be inserted
+      } 
       const participantSportsData = sportIds.map((sportId) => ({
         participantId,
         sportId,
       }));
-      console.log(participantSportsData,"-----------------participantSportsData")
-      // Insert all the records for the participant and sports
+      // console.log(participantSportsData,"-----------------participantSportsData")
+    
       const createdRecords = await ParticipantSports.bulkCreate(participantSportsData);
 
       return createdRecords;
@@ -35,6 +35,40 @@ const ParticipantSportsService = {
       throw new Error(`Error adding participant sports: ${error.message}`);
     }
   },
+
+  async getSportsByParticipantId(participantId) {
+    try {
+     
+      const participantSports = await ParticipantSports.findAll({
+        where: {
+          participantId: participantId,
+        },
+        attributes: ['sportId'], 
+      });
+  
+      // console.log(participantSports, "-------------------participantservice");
+  
+      if (!participantSports || participantSports.length === 0) {
+        throw new Error('No sports found for the participant');
+      }
+  
+      const sportIds = participantSports.map((ps) => ps.sportId);
+  
+      const sports = await Sports.findAll({
+        where: {
+          id: sportIds,
+        },
+        attributes: ['id', 'name'], 
+      });
+  
+      // console.log(sports, "---------sports");
+      return sports;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('Error fetching sports for the participant');
+    }
+  }
+  
 };
 
 module.exports = ParticipantSportsService;

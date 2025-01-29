@@ -10,7 +10,7 @@ const secretKey =  process.env.JWT_SECRET;
 const AdminController = {
     async addAdmin(req, res) {
         const { username, password } = req.body;
-         console.log(req.body,"-----------------------")
+     
         try {
             if (!username || !password) {
                 return res.status(400).json({ error: "Username and password are required" });
