@@ -3,3 +3,4 @@
 
 /event_server/node_modules
 /event_server/package-lock.json
+/event_server/.env
